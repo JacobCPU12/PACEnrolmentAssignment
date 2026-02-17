@@ -64,12 +64,25 @@ def student_create_view(request):
     return render(request, "pacapp/student_form.html", context)
 
 def student_edit_view(request, pk):
-    # Mock existing student (fetch from DB later)
-    context = {
-        "active_page": "student_form",
-        "mode": "edit",
-        "student": {
-            "pk": pk,
+    """
+    Handles editing an existing student.
+
+    - GET request → Display the form pre-filled with student data.
+    - POST request → Pretend to update student (mock mode) and redirect.
+    """
+
+    # Mock student data (not using database yet)
+    mock_students = {
+        1: {
+            "pk": 1,
+            "first_name": "Jacob",
+            "last_name": "White",
+            "student_id": "S0001",
+            "email": "S0001@paceacademy.com",
+            "enrollment_date": "2026-02-11",
+        },
+        2: {
+            "pk": 2,
             "first_name": "Jade",
             "last_name": "Darton",
             "student_id": "S0002",
@@ -77,12 +90,53 @@ def student_edit_view(request, pk):
             "enrollment_date": "2026-02-11",
         },
     }
-    return render(request, "pacapp/student_form.html", context)
 
-def student_delete_view(request, pk):
-    # For now just redirect back to student list
-    if request.method == "POST":
+    # Try to find the student by primary key (pk)
+    student = mock_students.get(pk)
+
+    # If student not found, redirect back to student list
+    if not student:
+        messages.error(request, "Student not found (mock mode).")
         return redirect("student_list")
 
-    # redirect to student list page
-    return redirect("student_list")
+    # If the form was submitted (POST request),
+    # this simulates saving changes to the database
+    if request.method == "POST":
+        # In real implementation:
+        # - Validate form
+        # - Save updated student to DB
+        messages.success(request, f"Student #{pk} updated (mock mode).")
+
+        # After updating, redirect back to the student list page
+        return redirect("student_list")
+
+    # If it's a GET request, render the form in edit mode
+    return render(request, "pacapp/student_form.html", {
+        "active_page": "student_form",
+        "mode": "edit",
+        "student": student,
+    })
+
+@login_required
+def student_delete_view(request, pk):
+    """
+    Handles deleting a student.
+
+    - Only allows deletion via POST request.
+    - Prevents accidental deletes via URL (GET request).
+    """
+
+    # Only allow delete if the request method is POST
+    if request.method == "POST":
+
+        # In real implementation:
+        # - Fetch student by pk
+        # - Call student.delete()
+        messages.success(request, f"Student #{pk} deleted (mock mode).")
+
+        # After deleting, redirect back to the list page
+        return redirect("student_list")
+
+    # If someone tries to access delete via browser URL,
+    # redirect them back to the edit page instead
+    return redirect("student_edit", pk=pk)
