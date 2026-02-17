@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Overview</title>
+  <link rel="stylesheet" href="{% static 'pacapp/home.css' %}">
+</head>
+
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-title">Pace Academy Admin</span>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-section">
+          <div class="nav-heading">MAIN MENU</div>
+
+          <a class="nav-item active" href="#">
+            <span>Dashboard</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-heading">STUDENTS</div>
+
+          <a class="nav-item" href="{% url 'student_list' %}">
+            <span>Students List</span>
+          </a>
+
+          <a class="nav-item" href="#">
+            <span>Student Form</span>
+          </a>
+
+          <a class="nav-item" href="#">
+            <span>Assign/Change PAC</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-heading">PACS</div>
+
+          <a class="nav-item" href="#">
+            <span>PAC List</span>
+          </a>
+
+          <a class="nav-item" href="#">
+            <span>PAC Form</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+      <!-- Top bar -->
+      <header class="topbar">
+        <h1 class="page-title">Dashboard Overview</h1>
+
+        <a class="logout-btn" href="{% url 'logout' %}">
+          <span class="logout-icon" aria-hidden="true">⎋</span>
+          Logout
+        </a>
+      </header>
+
+      <!-- Content area -->
+      <main class="content">
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Recent Activity</h2>
+          </div>
+
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>STUDENT NAME</th>
+                  <th>ACTION</th>
+                  <th>PAC ID</th>
+                  <th>ENROLLMENT DATE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Dummy rows, this can be generated from the database later. -->
+                <tr>
+                  <td class="muted">#S0001</td>
+                  <td>Jacob White</td>
+                  <td>PAC Assigned</td>
+                  <td class="muted">PAC-8821</td>
+                  <td class="muted">Feb 11, 2026</td>
+                </tr>
+                <tr>
+                  <td class="muted">#S0002</td>
+                  <td>Jade Darton</td>
+                  <td>New Registration</td>
+                  <td class="muted">Pending</td>
+                  <td class="muted">Feb 11, 2026</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
