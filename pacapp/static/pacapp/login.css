@@ -1,0 +1,119 @@
+/* Page background + centering */
+:root {
+  --bg: #f3f4f6;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 72px 16px;
+}
+
+.page-title {
+  margin: 0 0 28px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* Card */
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card-inner {
+  padding: 44px 46px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 18px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.card-subtitle {
+  margin: 8px 0 26px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Form */
+.form { display: grid; gap: 12px; }
+
+.label {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: #374151;
+  margin-top: 6px;
+}
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.icon {
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  color: var(--text);
+}
+
+input::placeholder {
+  color: #9ca3af;
+}
+
+/* Button */
+.btn {
+  margin-top: 14px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 13px;
+  background: #e5e7eb;
+  color: #111827;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #dfe3e8;
+}
