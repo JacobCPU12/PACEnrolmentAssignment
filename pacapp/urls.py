@@ -8,4 +8,14 @@ urlpatterns = [
 
     # sidebar links
     path("student_list/", views.student_list_view, name="student_list"),
+    path("student_form/", views.student_form_view, name="student_form"),
+    path("assign_pac/", views.assign_pac_view, name="assign_pac"),
+    path("pac_list/", views.pac_list_view, name="pac_list"),
+    path("pac_form/", views.pac_form_view, name="pac_form"),
+
+
+# Students CRUD
+    path("student_form/", views.student_create_view, name="student_form"),               # create
+    path("student/<int:pk>/edit/", views.student_edit_view, name="student_edit"),       # edit
+    path("student/<int:pk>/delete/", views.student_delete_view, name="student_delete"), # delete
     ]

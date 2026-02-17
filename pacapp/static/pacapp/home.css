@@ -58,6 +58,33 @@ body{
   padding: 10px 12px;
 }
 
+
+.nav-heading-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+}
+
+.nav-heading-row .nav-heading{
+  padding: 0;            /* prevent double padding because row already pads */
+}
+
+.chevron{
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+/* icon alignment inside nav + logout */
+.nav-icon svg,
+.logout-icon svg{
+  display: block;        /* removes baseline gap under SVG */
+}
+
+
 .nav-item{
   display: flex;
   align-items: center;

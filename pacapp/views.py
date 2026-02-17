@@ -21,7 +21,7 @@ def login_view(request):
 
 
 def home_view(request):
-    return render(request, "pacapp/home.html")
+    return render(request, "pacapp/home.html", {"active_page": "dashboard"})
 
 def logout_view(request):
     logout(request)
@@ -29,4 +29,60 @@ def logout_view(request):
 
 
 def student_list_view(request):
-    return render(request, "pacapp/student_list.html")
+    return render(request, "pacapp/student_list.html", {"active_page": "student_list"})
+
+
+def student_form_view(request):
+    return render(request, "pacapp/student_form.html", {"active_page": "student_form"})
+
+
+def assign_pac_view(request):
+    return render(request, "pacapp/assign_pac.html", {"active_page": "assign_pac"})
+
+
+def pac_list_view(request):
+    return render(request, "pacapp/pac_list.html", {"active_page": "pac_list"})
+
+
+def pac_form_view(request):
+    return render(request, "pacapp/pac_form.html", {"active_page": "pac_form"})
+
+
+def student_create_view(request):
+    # No real saving yet, just render the form in "create" mode.
+    context = {
+        "active_page": "student_form",
+        "mode": "create",
+        "student": {
+            "first_name": "",
+            "last_name": "",
+            "student_id": "",
+            "email": "",
+            "enrollment_date": "",
+        },
+    }
+    return render(request, "pacapp/student_form.html", context)
+
+def student_edit_view(request, pk):
+    # Mock existing student (fetch from DB later)
+    context = {
+        "active_page": "student_form",
+        "mode": "edit",
+        "student": {
+            "pk": pk,
+            "first_name": "Jade",
+            "last_name": "Darton",
+            "student_id": "S0002",
+            "email": "S0002@paceacademy.com",
+            "enrollment_date": "2026-02-11",
+        },
+    }
+    return render(request, "pacapp/student_form.html", context)
+
+def student_delete_view(request, pk):
+    # For now just redirect back to student list
+    if request.method == "POST":
+        return redirect("student_list")
+
+    # redirect to student list page
+    return redirect("student_list")

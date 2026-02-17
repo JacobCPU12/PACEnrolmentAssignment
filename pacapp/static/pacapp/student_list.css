@@ -1,0 +1,16 @@
+
+.table-students th:last-child,
+.table-students td:last-child {
+  width: 90px;
+}
+
+.action-link {
+  color: #374151;
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.action-link:hover {
+  color: #111827;
+}
