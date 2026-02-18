@@ -21,12 +21,10 @@
   gap: 22px;
 }
 
-/* Make cards similar to your design */
 .ap-card .card-body{
   padding: 0;
 }
 
-/* Slightly tighter tables */
 .ap-table thead th{
   padding: 12px 14px;
 }
@@ -51,7 +49,7 @@
   background:#111827;
 }
 
-/* Confirm button area (right card bottom) */
+/* Confirm button area (right card) */
 .ap-actions{
   display: flex;
   justify-content: flex-end;
