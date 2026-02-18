@@ -1,31 +1,31 @@
-.sf-header {
+.pf-header {
   max-width: 980px;
   margin: 8px 0 18px;
 }
 
-.sf-title {
+.pf-title {
   margin: 0;
   font-size: 22px;
   font-weight: 800;
 }
 
-.sf-subtitle {
+.pf-subtitle {
   margin: 6px 0 0;
   color: #6b7280;
   font-size: 13px;
 }
 
-.sf-card {
+.pf-card {
   max-width: 980px;
 }
 
-.sf-card-header {
+.pf-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.sf-required-note {
+.pf-required-note {
   font-size: 12px;
   color: #6b7280;
   display: inline-flex;
@@ -33,34 +33,34 @@
   align-items: center;
 }
 
-.sf-star {
+.pf-star {
   color: #ef4444;
   font-weight: 800;
 }
 
-.sf-card-body {
+.pf-card-body {
   padding: 18px;
 }
 
-.sf-grid-2 {
+.pf-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
   margin-bottom: 16px;
 }
 
-.sf-field {
+.pf-field {
   display: grid;
   gap: 8px;
 }
 
-.sf-label {
+.pf-label {
   font-size: 12px;
   font-weight: 700;
   color: #374151;
 }
 
-.sf-input {
+.pf-input {
   width: 100%;
   border: 1px solid #d1d5db;
   border-radius: 8px;
@@ -70,15 +70,15 @@
   background: #fff;
 }
 
-.sf-input:focus {
+.pf-input:focus {
   border-color: #9ca3af;
 }
 
-.sf-input-wrap {
+.pf-input-wrap {
   position: relative;
 }
 
-.sf-icon {
+.pf-icon {
   position: absolute;
   left: 12px;
   top: 50%;
@@ -86,27 +86,28 @@
   color: #9ca3af;
 }
 
-.sf-has-icon {
+.pf-has-icon {
   padding-left: 40px;
 }
 
-.sf-divider {
+.pf-divider {
   border: none;
   border-top: 1px solid #e5e7eb;
   margin: 18px 0;
 }
 
-.sf-actions {
+.pf-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
 }
 
-.sf-inline-form {
-  margin: 0;
+.pf-inline-form {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.sf-btn {
+.pf-btn {
   border-radius: 8px;
   padding: 10px 16px;
   font-size: 13px;
@@ -115,32 +116,32 @@
   border: 1px solid transparent;
 }
 
-.sf-btn-primary {
+.pf-btn-primary {
   background: #111827;
   color: #fff;
 }
 
-.sf-btn-primary:hover {
+.pf-btn-primary:hover {
   background: #0b1220;
 }
 
-.sf-btn-danger {
+.pf-btn-danger {
   background: #dc2626;
-  color: #ffffff;
+  color: #fff;
   border-color: #dc2626;
 }
 
-.sf-btn-danger:hover {
+.pf-btn-danger:hover {
   background: #b91c1c;
   border-color: #b91c1c;
 }
 
-
 @media (max-width: 900px) {
-  .sf-grid-2 {
+  .pf-grid-2 {
     grid-template-columns: 1fr;
   }
-  .sf-actions {
+  .pf-actions,
+  .pf-inline-form {
     justify-content: flex-start;
   }
 }

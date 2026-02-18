@@ -1,4 +1,4 @@
-<!-- THIS APPLIES THE TOP BAR AND SIDE BAR ONTO EVERY PAGE EXCEPT LOGIN -->
+<!-- THIS FILE APPLIES THE TOP BAR AND SIDE BAR ONTO EVERY PAGE EXCEPT LOGIN -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}Pace Academy Admin{% endblock %}</title>
 
-  <!-- my existing dashboard styles -->
   <link rel="stylesheet" href="{% static 'pacapp/home.css' %}">
 
   <!-- page-specific CSS can be added per page -->
@@ -62,7 +61,7 @@
                 <path fill="currentColor" d="M11 5h2v14h-2zM5 11h14v2H5z"/>
               </svg>
             </span>
-            <span>Student Form</span>
+            <span>Add New Student</span>
           </a>
 
           <a class="nav-item {% if active_page == 'assign_pac' %}active{% endif %}" href="{% url 'assign_pac' %}">
@@ -97,7 +96,7 @@
                 <path fill="currentColor" d="M11 5h2v14h-2zM5 11h14v2H5z"/>
               </svg>
             </span>
-            <span>PAC Form</span>
+            <span>Add New PAC</span>
           </a>
         </div>
 

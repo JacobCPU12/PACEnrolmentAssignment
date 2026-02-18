@@ -1,10 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "pacapp/dashboard_base.html" %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}PAC List{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+
+{% block content %}
+
+<section class="card">
+  <div class="card-header">
+    <h2 class="card-title">PAC List</h2>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-students">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>FIRST NAME</th>
+          <th>LAST NAME</th>
+          <th>EMAIL</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- Mock rows (no DB yet) -->
+
+        <tr>
+          <td class="muted">PAC-8821</td>
+          <td>Sarah</td>
+          <td>Mitchell</td>
+          <td class="muted">s.mitchell@paceacademy.com</td>
+          <td>
+            <a class="action-link" href="{% url 'pac_edit' pk=1 %}">Edit</a>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="muted">PAC-9102</td>
+          <td>James</td>
+          <td>Roberts</td>
+          <td class="muted">j.roberts@paceacademy.com</td>
+          <td>
+            <a class="action-link" href="{% url 'pac_edit' pk=2 %}">Edit</a>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% endblock %}
