@@ -308,3 +308,4 @@ def assign_pac_view(request):
         "selected_student": selected_student,
         "selected_pac": selected_pac,
     })
+    return render(request, "pacapp/student_list.html")
