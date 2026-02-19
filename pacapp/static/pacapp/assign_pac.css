@@ -1,0 +1,106 @@
+.ap-header{
+  margin: 8px 0 18px;
+}
+
+.ap-title{
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.ap-subtitle{
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Two-column layout */
+.ap-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.ap-card .card-body{
+  padding: 0;
+}
+
+.ap-table thead th{
+  padding: 12px 14px;
+}
+
+.ap-table tbody td{
+  padding: 12px 14px;
+}
+
+/* Highlight selected row */
+.ap-row-selected{
+  background: #f3f4f6;
+  position: relative;
+}
+
+.ap-row-selected::after{
+  content:"";
+  position:absolute;
+  right:0;
+  top:0;
+  bottom:0;
+  width:3px;
+  background:#111827;
+}
+
+/* Confirm button area (right card) */
+.ap-actions{
+  display: flex;
+  justify-content: flex-end;
+  padding: 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ap-btn-primary{
+  background: #111827;
+  color: #fff;
+  border: 1px solid #111827;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ap-btn-primary:hover{
+  background: #0b1220;
+  border-color: #0b1220;
+}
+
+/* Messages (optional) */
+.ap-messages{
+  margin: 0 0 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.ap-message{
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 13px;
+}
+
+.ap-message-success{
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+
+.ap-message-error{
+  border-color: #fecaca;
+  background: #fff1f2;
+}
+
+/* Responsive */
+@media (max-width: 1100px){
+  .ap-grid{
+    grid-template-columns: 1fr;
+  }
+}

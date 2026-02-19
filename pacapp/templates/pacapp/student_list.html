@@ -1,11 +1,55 @@
+{% extends "pacapp/dashboard_base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Students List</title>
-  <link rel="stylesheet" href="{% static 'pacapp/home.css' %}">
-</head>
-<body>
-  <h1>Students List Page</h1>
-</body>
-</html>
+
+{% block title %}Students List{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pacapp/student_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="card">
+  <div class="card-header">
+    <h2 class="card-title">Students List</h2>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-students">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>FIRST NAME</th>
+          <th>LAST NAME</th>
+          <th>EMAIL</th>
+          <th>ENROLLMENT DATE</th>
+          <th>ASSIGNED PAC</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Placeholder rows -->
+        <tr>
+          <td class="muted">#S0001</td>
+          <td>Jacob</td>
+          <td>White</td>
+          <td class="muted">S0001@paceacademy.com</td>
+          <td class="muted">Feb 11, 2026</td>
+          <td class="muted">PAC-8821</td>
+          <td><a class="action-link" href="{% url 'student_edit' pk=1 %}">Edit</a></td>
+        </tr>
+
+        <tr>
+          <td class="muted">#S0002</td>
+          <td>Jade</td>
+          <td>Darton</td>
+          <td class="muted">S0002@paceacademy.com</td>
+          <td class="muted">Feb 11, 2026</td>
+          <td class="muted">Pending</td>
+          <td><a class="action-link" href="{% url 'student_edit' pk=2 %}">Edit</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

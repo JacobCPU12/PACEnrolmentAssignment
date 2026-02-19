@@ -1,10 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "pacapp/dashboard_base.html" %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Assign / Change PAC{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pacapp/assign_pac.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="ap-header">
+  <h2 class="ap-title">Assign / Change PAC</h2>
+  <p class="ap-subtitle">Assign a PAC to a newly enrolled student or change a current student's PAC.</p>
+</div>
+
+{% if messages %}
+  <div class="ap-messages">
+    {% for message in messages %}
+      <div class="ap-message ap-message-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<form method="POST">
+  {% csrf_token %}
+
+  <div class="ap-grid">
+
+    <!-- LEFT TABLE: Select Student -->
+    <section class="card ap-card">
+      <div class="card-header">
+        <h3 class="card-title">Select Student</h3>
+      </div>
+
+      <div class="card-body">
+        <table class="table ap-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>FIRST NAME</th>
+              <th>LAST NAME</th>
+              <th>EMAIL</th>
+              <th>ENROLLMENT DATE</th>
+              <th>SELECT</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for s in students %}
+              <tr class="{% if selected_student == s.pk %}ap-row-selected{% endif %}">
+                <td class="muted">#{{ s.student_id }}</td>
+                <td>{{ s.first_name }}</td>
+                <td>{{ s.last_name }}</td>
+                <td class="muted">{{ s.email }}</td>
+                <td class="muted">{{ s.enrollment_date }}</td>
+                <td>
+                  <input type="radio"
+                         name="selected_student"
+                         value="{{ s.pk }}"
+                         {% if selected_student == s.pk %}checked{% endif %}>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- RIGHT TABLE: Select PAC -->
+    <section class="card ap-card">
+      <div class="card-header">
+        <h3 class="card-title">Select PAC</h3>
+      </div>
+
+      <div class="card-body">
+        <table class="table ap-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>FIRST NAME</th>
+              <th>LAST NAME</th>
+              <th>EMAIL</th>
+              <th>SPECIALISATION</th>
+              <th>SELECT</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for p in pacs %}
+              <tr class="{% if selected_pac == p.pk %}ap-row-selected{% endif %}">
+                <td class="muted">{{ p.pac_id }}</td>
+                <td>{{ p.first_name }}</td>
+                <td>{{ p.last_name }}</td>
+                <td class="muted">{{ p.email }}</td>
+                <td class="muted">{{ p.specialisation }}</td>
+                <td>
+                  <input type="radio"
+                         name="selected_pac"
+                         value="{{ p.pk }}"
+                         {% if selected_pac == p.pk %}checked{% endif %}>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="ap-actions">
+          <button type="submit" class="ap-btn-primary">Confirm Assignment</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</form>
+
+{% endblock %}
