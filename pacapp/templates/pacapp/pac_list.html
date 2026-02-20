@@ -24,28 +24,17 @@
       </thead>
 
       <tbody>
-        <!-- Mock rows (no DB yet) -->
-
+        {% for pac in pacs %}
         <tr>
-          <td class="muted">PAC-8821</td>
-          <td>Sarah</td>
-          <td>Mitchell</td>
-          <td class="muted">s.mitchell@paceacademy.com</td>
+          <td class="muted">PAC-{{pac.pk}}</td>
+          <td>{{pac.first_name}}</td>
+          <td>{{pac.last_name}}</td>
+          <td class="muted">{{pac.email}}</td>
           <td>
-            <a class="action-link" href="{% url 'pac_edit' pk=1 %}">Edit</a>
+            <a class="action-link" href="{% url 'pac_edit' pk=pac.pk %}">Edit</a>
           </td>
         </tr>
-
-        <tr>
-          <td class="muted">PAC-9102</td>
-          <td>James</td>
-          <td>Roberts</td>
-          <td class="muted">j.roberts@paceacademy.com</td>
-          <td>
-            <a class="action-link" href="{% url 'pac_edit' pk=2 %}">Edit</a>
-          </td>
-        </tr>
-
+        {% endfor %}
       </tbody>
     </table>
   </div>

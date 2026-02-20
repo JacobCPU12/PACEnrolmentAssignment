@@ -1,5 +1,6 @@
 from django import forms
 from .models import Students
+from .models import Pacs
 
 class StudentForm(forms.ModelForm):
     class Meta:
@@ -22,3 +23,13 @@ class StudentForm(forms.ModelForm):
             ),
             "assigned_pac": forms.Select(attrs={"class": "sf-input"}),
         }
+
+class PacForm(forms.ModelForm):
+    class Meta:
+        model = Pacs
+        fields = [
+            "pac_id",
+            "first_name",
+            "last_name",
+            "email",
+        ]
