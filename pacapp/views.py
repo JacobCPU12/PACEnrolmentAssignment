@@ -2,6 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Students
+from .forms import StudentForm
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -21,7 +24,12 @@ def login_view(request):
 
 
 def home_view(request):
-    return render(request, "pacapp/home.html", {"active_page": "dashboard"})
+    student=Students.objects.all()
+    context={
+        'students':student,
+        'active_page': 'dashboard',
+    }
+    return render(request, "pacapp/home.html", context)
 
 def logout_view(request):
     logout(request)
@@ -29,12 +37,12 @@ def logout_view(request):
 
 
 def student_list_view(request):
-    return render(request, "pacapp/student_list.html", {"active_page": "student_list"})
-
-
-def student_form_view(request):
-    return render(request, "pacapp/student_form.html", {"active_page": "student_form"})
-
+    student=Students.objects.all()
+    context={
+        'students':student,
+        'active_page': 'student_list',
+    }
+    return render(request, "pacapp/student_list.html", context)
 
 def assign_pac_view(request):
     return render(request, "pacapp/assign_pac.html", {"active_page": "assign_pac"})
@@ -49,71 +57,37 @@ def pac_form_view(request):
 
 
 def student_create_view(request):
-    # No real saving yet, just render the form in "create" mode.
-    context = {
+    if request.method == "POST":
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Student created successfully.")
+            return redirect("student_list")
+    else:
+        form = StudentForm()
+
+    return render(request, "pacapp/student_form.html", {
         "active_page": "student_form",
         "mode": "create",
-        "student": {
-            "first_name": "",
-            "last_name": "",
-            "student_id": "",
-            "email": "",
-            "enrollment_date": "",
-        },
-    }
-    return render(request, "pacapp/student_form.html", context)
+        "form": form,
+    })
 
 def student_edit_view(request, pk):
-    """
-    Handles editing an existing student.
+    student = get_object_or_404(Students, pk=pk)
 
-    - GET request → Display the form pre-filled with student data.
-    - POST request → Pretend to update student (mock mode) and redirect.
-    """
-
-    # Mock student data (not using database yet)
-    mock_students = {
-        1: {
-            "pk": 1,
-            "first_name": "Jacob",
-            "last_name": "White",
-            "student_id": "S0001",
-            "email": "S0001@paceacademy.com",
-            "enrollment_date": "2026-02-11",
-        },
-        2: {
-            "pk": 2,
-            "first_name": "Jade",
-            "last_name": "Darton",
-            "student_id": "S0002",
-            "email": "S0002@paceacademy.com",
-            "enrollment_date": "2026-02-11",
-        },
-    }
-
-    # Try to find the student by primary key (pk)
-    student = mock_students.get(pk)
-
-    # If student not found, redirect back to student list
-    if not student:
-        messages.error(request, "Student not found (mock mode).")
-        return redirect("student_list")
-
-    # If the form was submitted (POST request),
-    # this simulates saving changes to the database
     if request.method == "POST":
-        # In real implementation:
-        # - Validate form
-        # - Save updated student to DB
-        messages.success(request, f"Student #{pk} updated (mock mode).")
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Student updated successfully.")
+            return redirect("student_list")
+    else:
+        form = StudentForm(instance=student)
 
-        # After updating, redirect back to the student list page
-        return redirect("student_list")
-
-    # If it's a GET request, render the form in edit mode
     return render(request, "pacapp/student_form.html", {
         "active_page": "student_form",
         "mode": "edit",
+        "form": form,
         "student": student,
     })
 
@@ -125,13 +99,14 @@ def student_delete_view(request, pk):
     - Only allows deletion via POST request.
     - Prevents accidental deletes via URL (GET request).
     """
+    student = get_object_or_404(Students, pk=pk)
 
     # Only allow delete if the request method is POST
     if request.method == "POST":
 
         # In real implementation:
         # - Fetch student by pk
-        # - Call student.delete()
+        student.delete()
         messages.success(request, f"Student #{pk} deleted (mock mode).")
 
         # After deleting, redirect back to the list page
