@@ -36,7 +36,7 @@
           <td>{{student.email}}</td>
           <td class="muted">{{student.enrollment_date}}</td>
           <td class="muted">PAC-{{student.assigned_pac.id|default:"N/A"}}</td>
-          <td><a class="action-link" href="{% url 'student_edit' pk=1 %}">Edit</a></td>
+          <td><a class="action-link" href="{% url 'student_edit' pk=student.id %}">Edit</a></td>
         </tr>
         {% endfor %}
       </tbody>
