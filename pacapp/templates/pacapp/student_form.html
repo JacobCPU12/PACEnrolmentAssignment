@@ -60,8 +60,9 @@
                 <path fill="currentColor" d="M3 5h18v14H3V5Zm2 2v10h14V7H5Zm2 2h6v2H7V9Zm0 4h6v2H7v-2Zm8-4h2v2h-2V9Zm0 4h2v2h-2v-2Z"/>
               </svg>
             </span>
-            S<input class="sf-input sf-has-icon" id="student_id" name="student_id" type="text"
+            <input class="sf-input sf-has-icon" id="student_id" name="student_id" type="text"
                    placeholder="e.g. 10123" value="{{ form.student_id.value|default_if_none:'' }}" required>
+              <small>Only type in the student number</small>
           </div>
         </div>
 

@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Pacs(models.Model):
-    pac_id = models.IntegerField()
+    pac_id = models.IntegerField(primary_key=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField()

@@ -184,12 +184,10 @@ def assign_pac_view(request):
         if not selected_student or not selected_pac:
             messages.error(request, "Please select both a student and a PAC before confirming.")
         else:
-            # Get objects from DB
             student_obj = get_object_or_404(Students, pk=selected_student)
             pac_obj = get_object_or_404(Pacs, pk=selected_pac)
 
-            # Assign PAC
-            student_obj.assigned_pac_id = pac_obj.pk  # assuming assigned_pac_id is the FK field
+            student_obj.assigned_pac = pac_obj
             student_obj.save()
 
             messages.success(
