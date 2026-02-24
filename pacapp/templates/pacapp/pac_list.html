@@ -1,10 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "pacapp/dashboard_base.html" %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}PAC List{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+
+{% block content %}
+
+<section class="card">
+  <div class="card-header">
+    <h2 class="card-title">PAC List</h2>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-students">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>FIRST NAME</th>
+          <th>LAST NAME</th>
+          <th>EMAIL</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for pac in pacs %}
+        <tr>
+          <td class="muted">E{{pac.pac_id}}</td>
+          <td>{{pac.first_name}}</td>
+          <td>{{pac.last_name}}</td>
+          <td class="muted">{{pac.email}}</td>
+          <td>
+            <a class="action-link" href="{% url 'pac_edit' pk=pac.pk %}">Edit</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% endblock %}

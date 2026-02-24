@@ -1,10 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "pacapp/dashboard_base.html" %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}
+  {% if mode == "edit" %}Edit PAC{% else %}Create New PAC{% endif %}
+{% endblock %}
+
+{% block page_title %}Dashboard Overview{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pacapp/pac_form.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="pf-header">
+  <h2 class="pf-title">
+    {% if mode == "edit" %}Edit PAC{% else %}Create New PAC{% endif %}
+  </h2>
+  <p class="pf-subtitle">
+    {% if mode == "edit" %}
+      Update the details below to edit the PAC record.
+    {% else %}
+      Fill in the details below to register a new PAC into the system.
+    {% endif %}
+  </p>
+</div>
+
+<section class="card pf-card">
+  <div class="card-header pf-card-header">
+    <h3 class="card-title">PAC Information</h3>
+    <div class="pf-required-note"><span class="pf-star">*</span> Required fields</div>
+  </div>
+
+  <div class="card-body pf-card-body">
+    <!-- Main create/edit form -->
+    <form method="POST" action="">
+      {% csrf_token %}
+
+      <div class="pf-grid-2">
+        <div class="pf-field">
+          <label class="pf-label" for="first_name">First Name <span class="pf-star">*</span></label>
+          <input class="pf-input" id="first_name" name="first_name" type="text"
+                 placeholder="e.g. Sarah" value="{{ pac.first_name }}" required>
+        </div>
+
+        <div class="pf-field">
+          <label class="pf-label" for="last_name">Last Name <span class="pf-star">*</span></label>
+          <input class="pf-input" id="last_name" name="last_name" type="text"
+                 placeholder="e.g. Mitchell" value="{{ pac.last_name }}" required>
+        </div>
+      </div>
+
+      <div class="pf-grid-2">
+        <div class="pf-field">
+          <label class="pf-label" for="pac_id">PAC ID <span class="pf-star">*</span></label>
+          <div class="pf-input-wrap">
+            <span class="pf-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path fill="currentColor" d="M3 5h18v14H3V5Zm2 2v10h14V7H5Z"/>
+              </svg>
+            </span>
+            <input class="pf-input pf-has-icon" id="pac_id" name="pac_id" type="text"
+                   placeholder="e.g. 8821" value="{{ pac.pac_id }}" required>
+              <small>Enter the number only - do not include the letter E.</small>
+          </div>
+        </div>
+
+        <div class="pf-field">
+          <label class="pf-label" for="email">Email Address <span class="pf-star">*</span></label>
+          <div class="pf-input-wrap">
+            <span class="pf-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/>
+              </svg>
+            </span>
+            <input class="pf-input pf-has-icon" id="email" name="email" type="email"
+                   placeholder="name@paceacademy.com" value="{{ pac.email }}" required>
+          </div>
+        </div>
+      </div>
+
+      <hr class="pf-divider">
+
+      <div class="pf-actions">
+        <button type="submit" class="pf-btn pf-btn-primary">
+          {% if mode == "edit" %}Update PAC{% else %}Save PAC{% endif %}
+        </button>
+      </div>
+    </form>
+
+    {% if mode == "edit" %}
+      <!-- Separate delete form (NOT nested) -->
+      <form method="POST" action="{% url 'pac_delete' pk=pac.pk %}" class="pf-inline-form">
+        {% csrf_token %}
+        <button type="submit" class="pf-btn pf-btn-danger">Delete PAC</button>
+      </form>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}

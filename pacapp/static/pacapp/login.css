@@ -109,11 +109,11 @@ input::placeholder {
   padding: 12px 14px;
   font-weight: 700;
   font-size: 13px;
-  background: #e5e7eb;
-  color: #111827;
+  background: #2c2b2b;
+  color: #ffffff;
   cursor: pointer;
 }
 
 .btn:hover {
-  background: #dfe3e8;
+  background: #000000;
 }

@@ -2,8 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.shortcuts import render
-from .models import Students, Pacs
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Students
+from .models import Pacs
+from .forms import StudentForm
+from .forms import PacForm
+
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("home")
@@ -22,7 +26,12 @@ def login_view(request):
 
 
 def home_view(request):
-    return render(request, "pacapp/home.html", {"active_page": "dashboard"})
+    student=Students.objects.all()
+    context={
+        'students':student,
+        'active_page': 'dashboard',
+    }
+    return render(request, "pacapp/home.html", context)
 
 def logout_view(request):
     logout(request)
@@ -30,96 +39,60 @@ def logout_view(request):
 
 
 def student_list_view(request):
-    students = Students.objects.all().select_related('assigned_pac')
-    return render(request, "pacapp/student_list.html", {"students": students})
+    student=Students.objects.all()
+    context={
+        'students':student,
+        'active_page': 'student_list',
+    }
+    return render(request, "pacapp/student_list.html", context)
 
 
 def pac_list_view(request):
-    data_from_db = Pacs.objects.all()
-    return render(request, "pacapp/pac_list.html", {
-        "pacs": data_from_db,
-        "active_page": "pac_list"
-    })
-
-
-def assign_pac_view(request):
-    return render(request, "pacapp/assign_pac.html", {"active_page": "assign_pac"})
-
-
+    pacs=Pacs.objects.all()
+    print("PAC COUNT:", pacs.count())
+    context= {
+        'pacs':pacs,
+        'active_page': 'pac_list',
+    }
+    return render(request, "pacapp/pac_list.html", context)
 
 
 def pac_form_view(request):
     return render(request, "pacapp/pac_form.html", {"active_page": "pac_form"})
 
-def student_form_view(request): # Make sure this name is exact
-    return render(request, "pacapp/student_form.html", {"active_page": "student_form"})
 
 def student_create_view(request):
-    # No real saving yet, just render the form in "create" mode.
-    context = {
+    if request.method == "POST":
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Student created successfully.")
+            return redirect("student_list")
+    else:
+        form = StudentForm()
+
+    return render(request, "pacapp/student_form.html", {
         "active_page": "student_form",
         "mode": "create",
-        "student": {
-            "first_name": "",
-            "last_name": "",
-            "student_id": "",
-            "email": "",
-            "enrollment_date": "",
-        },
-    }
-    return render(request, "pacapp/student_form.html", context)
+        "form": form,
+    })
 
 def student_edit_view(request, pk):
-    """
-    Handles editing an existing student.
+    student = get_object_or_404(Students, pk=pk)
 
-    - GET request → Display the form pre-filled with student data.
-    - POST request → Pretend to update student (mock mode) and redirect.
-    """
-
-    # Mock student data (not using database yet)
-    mock_students = {
-        1: {
-            "pk": 1,
-            "first_name": "Jacob",
-            "last_name": "White",
-            "student_id": "S0001",
-            "email": "S0001@paceacademy.com",
-            "enrollment_date": "2026-02-11",
-        },
-        2: {
-            "pk": 2,
-            "first_name": "Jade",
-            "last_name": "Darton",
-            "student_id": "S0002",
-            "email": "S0002@paceacademy.com",
-            "enrollment_date": "2026-02-11",
-        },
-    }
-
-    # Try to find the student by primary key (pk)
-    student = mock_students.get(pk)
-
-    # If student not found, redirect back to student list
-    if not student:
-        messages.error(request, "Student not found (mock mode).")
-        return redirect("student_list")
-
-    # If the form was submitted (POST request),
-    # this simulates saving changes to the database
     if request.method == "POST":
-        # In real implementation:
-        # - Validate form
-        # - Save updated student to DB
-        messages.success(request, f"Student #{pk} updated (mock mode).")
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Student updated successfully.")
+            return redirect("student_list")
+    else:
+        form = StudentForm(instance=student)
 
-        # After updating, redirect back to the student list page
-        return redirect("student_list")
-
-    # If it's a GET request, render the form in edit mode
     return render(request, "pacapp/student_form.html", {
         "active_page": "student_form",
         "mode": "edit",
+        "form": form,
         "student": student,
     })
 
@@ -131,13 +104,14 @@ def student_delete_view(request, pk):
     - Only allows deletion via POST request.
     - Prevents accidental deletes via URL (GET request).
     """
+    student = get_object_or_404(Students, pk=pk)
 
     # Only allow delete if the request method is POST
     if request.method == "POST":
 
         # In real implementation:
         # - Fetch student by pk
-        # - Call student.delete()
+        student.delete()
         messages.success(request, f"Student #{pk} deleted (mock mode).")
 
         # After deleting, redirect back to the list page
@@ -147,76 +121,47 @@ def student_delete_view(request, pk):
     # redirect them back to the edit page instead
     return redirect("student_edit", pk=pk)
 
-
-
-## placeholder view
-def pac_edit_view(request, pk):
-    return render(request, "pacapp/pac_form.html", {
-        "active_page": "pac_form",
-        "mode": "edit",
-        "pac": {
-            "pk": pk,
-            "first_name": "Sarah",
-            "last_name": "Mitchell",
-            "pac_id": "PAC-8821",
-            "email": "s.mitchell@paceacademy.com",
-        }
-    })
-
 def pac_create_view(request):
-    """
-    PAC Create page (mock mode)
-    - GET: show empty form
-    - POST: pretend save + redirect
-    """
     if request.method == "POST":
-        messages.success(request, "PAC saved (mock mode).")
-        return redirect("pac_list")
+        form = PacForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "PAC created successfully.")
+            return redirect("pac_list")
+    else:
+        form = PacForm()
 
     return render(request, "pacapp/pac_form.html", {
         "active_page": "pac_form",
         "mode": "create",
-        "pac": {
-            "pk": None,
-            "first_name": "",
-            "last_name": "",
-            "pac_id": "",
-            "email": "",
-        }
+        "form": form,
     })
 
 def pac_edit_view(request, pk):
-    """
-    PAC Edit page (mock mode)
-    - GET: show pre-filled form
-    - POST: pretend update + redirect
-    """
-    mock_pacs = {
-        1: {"pk": 1, "first_name": "Sarah", "last_name": "Mitchell", "pac_id": "PAC-8821", "email": "s.mitchell@paceacademy.com"},
-        2: {"pk": 2, "first_name": "James", "last_name": "Roberts", "pac_id": "PAC-9102", "email": "j.roberts@paceacademy.com"},
-    }
-
-    pac = mock_pacs.get(pk)
-    if not pac:
-        messages.error(request, "PAC not found (mock mode).")
-        return redirect("pac_list")
+    pac = get_object_or_404(Pacs, pk=pk)
 
     if request.method == "POST":
-        messages.success(request, f"PAC #{pk} updated (mock mode).")
-        return redirect("pac_list")
+        form = PacForm(request.POST, instance=pac)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "PAC updated successfully.")
+            return redirect("pac_list")
+    else:
+        form = PacForm(instance=pac)
 
     return render(request, "pacapp/pac_form.html", {
         "active_page": "pac_form",
         "mode": "edit",
-        "pac": pac
+        "form": form,
+        "pac": pac,
     })
 
 def pac_delete_view(request, pk):
-    """
-    PAC Delete (POST only)
-    """
+    pac = get_object_or_404(Pacs, pk=pk)
+
     if request.method == "POST":
-        messages.success(request, f"PAC #{pk} deleted (mock mode).")
+        pac.delete()
+        messages.success(request, "PAC deleted successfully.")
         return redirect("pac_list")
 
     return redirect("pac_edit", pk=pk)
@@ -224,85 +169,35 @@ def pac_delete_view(request, pk):
 
 def assign_pac_view(request):
     """
-    Mock Assign/Change PAC page.
-
-    - GET: show two tables with radio buttons.
-    - POST: read selected student + selected pac, then show a success message.
+    Assign / Change PAC page using real models.
     """
+    students = Students.objects.all().order_by('student_id')
+    pacs = Pacs.objects.all().order_by('pac_id')  # Replace with your actual PAC model
 
-    # Mock students
-    students = [
-        {
-            "pk": 1,
-            "student_id": "S0001",
-            "first_name": "Jacob",
-            "last_name": "White",
-            "email": "S0001@paceacademy.com",
-            "enrollment_date": "Feb 11, 2026",
-        },
-        {
-            "pk": 2,
-            "student_id": "S0002",
-            "first_name": "Jade",
-            "last_name": "Darton",
-            "email": "S0002@paceacademy.com",
-            "enrollment_date": "Feb 11, 2026",
-        },
-    ]
-
-    # Mock PACs
-    pacs = [
-        {
-            "pk": 1,
-            "pac_id": "PAC-8821",
-            "first_name": "Pac",
-            "last_name": "Man",
-            "email": "pacman@paceacademy.com",
-            "specialisation": "Software",
-        },
-        {
-            "pk": 2,
-            "pac_id": "PAC-8822",
-            "first_name": "Pac",
-            "last_name": "Lady",
-            "email": "paclady@paceacademy.com",
-            "specialisation": "Childcare",
-        },
-    ]
-
-    # Defaults for which radio buttons appear selected
     selected_student = None
     selected_pac = None
 
     if request.method == "POST":
-        # Grab the selected IDs from the submitted form
         selected_student = request.POST.get("selected_student")
         selected_pac = request.POST.get("selected_pac")
 
-        # Basic validation
         if not selected_student or not selected_pac:
             messages.error(request, "Please select both a student and a PAC before confirming.")
-            return redirect("assign_pac")
+        else:
+            student_obj = get_object_or_404(Students, pk=selected_student)
+            pac_obj = get_object_or_404(Pacs, pk=selected_pac)
 
-        # Look up the chosen student + pac in mock list
-        student_obj = next((s for s in students if str(s["pk"]) == str(selected_student)), None)
-        pac_obj = next((p for p in pacs if str(p["pk"]) == str(selected_pac)), None)
+            student_obj.assigned_pac = pac_obj
+            student_obj.save()
 
-        if not student_obj or not pac_obj:
-            messages.error(request, "Selection not found (mock mode).")
-            return redirect("assign_pac")
+            messages.success(
+                request,
+                f"Assigned {student_obj.first_name} {student_obj.last_name} to {pac_obj.first_name} {pac_obj.last_name}."
+            )
 
-
-        # student.assigned_pac = pac
-        # student.save()
-        messages.success(
-            request,
-            f"Assigned {student_obj['first_name']} {student_obj['last_name']} to {pac_obj['pac_id']}."
-        )
-
-        # Keep the radios selected after submission
-        selected_student = int(student_obj["pk"])
-        selected_pac = int(pac_obj["pk"])
+            # Keep radio buttons selected
+            selected_student = student_obj.pk
+            selected_pac = pac_obj.pk
 
     return render(request, "pacapp/assign_pac.html", {
         "active_page": "assign_pac",
@@ -311,4 +206,3 @@ def assign_pac_view(request):
         "selected_student": selected_student,
         "selected_pac": selected_pac,
     })
-    return render(request, "pacapp/student_list.html")
