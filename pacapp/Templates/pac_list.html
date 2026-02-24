@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PAC List</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Home</a> |
+        <a href="{% url 'student_list' %}">Students</a> |
+        <a href="{% url 'pac_list' %}">PACs</a>
+    </nav>
+
+    <h2>PAC List</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Students Assigned</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pac in pacs %}
+            <tr>
+                <td>{{ pac.pk }}</td>
+                <td>{{ pac.first_name }} {{ pac.last_name }}</td>
+                <td>{{ pac.email }}</td>
+                <td>{{ pac.students_set.count }}</td>
+                <td>
+                    <a href="{% url 'pac_edit' pk=pac.pk %}">Edit</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No PAC data found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

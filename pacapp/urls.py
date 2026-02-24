@@ -2,11 +2,14 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+
+    # Auth
     path("", views.login_view, name="login"),
     path("home/", views.home_view, name="home"),
     path("logout/", views.logout_view, name="logout"),
 
-    # sidebar links
+    # Students
+    path("student_form/", views.student_create_view, name="student_form"),   # create
     path("student_list/", views.student_list_view, name="student_list"),
     path("student/create/", views.student_create_view, name="student_create"),
     path("assign_pac/", views.assign_pac_view, name="assign_pac"),
