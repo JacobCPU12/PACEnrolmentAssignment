@@ -40,13 +40,14 @@
         <div class="sf-field">
           <label class="sf-label" for="first_name">First Name <span class="sf-star">*</span></label>
           <input class="sf-input" id="first_name" name="first_name" type="text"
-                 placeholder="e.g. John" value="{{ student.first_name }}" required>
+             placeholder="e.g. John"
+             value="{{ form.first_name.value|default_if_none:'' }}" required>
         </div>
 
         <div class="sf-field">
           <label class="sf-label" for="last_name">Last Name <span class="sf-star">*</span></label>
           <input class="sf-input" id="last_name" name="last_name" type="text"
-                 placeholder="e.g. Doe" value="{{ student.last_name }}" required>
+                 placeholder="e.g. Doe" value="{{ form.last_name.value|default_if_none:'' }}" required>
         </div>
       </div>
 
@@ -60,7 +61,8 @@
               </svg>
             </span>
             <input class="sf-input sf-has-icon" id="student_id" name="student_id" type="text"
-                   placeholder="e.g. S0123" value="{{ student.student_id }}" required>
+                   placeholder="e.g. 10123" value="{{ form.student_id.value|default_if_none:'' }}" required>
+              <small>Only type in the student number</small>
           </div>
         </div>
 
@@ -73,7 +75,7 @@
               </svg>
             </span>
             <input class="sf-input sf-has-icon" id="email" name="email" type="email"
-                   placeholder="S0123@paceacademy.com" value="{{ student.email }}" required>
+                   placeholder="S0123@paceacademy.com" value="{{ form.email.value|default_if_none:'' }}" required>
           </div>
         </div>
       </div>
@@ -98,20 +100,21 @@
       <hr class="sf-divider">
 
       <div class="sf-actions">
-        {% if mode == "edit" %}
-          <!-- Separate form for delete -->
-          <form method="POST" action="{% url 'student_delete' pk=student.pk %}" class="sf-inline-form">
-            {% csrf_token %}
-            <button type="submit" class="sf-btn sf-btn-danger">Delete Student</button>
-          </form>
-        {% endif %}
-
         <button type="submit" class="sf-btn sf-btn-primary">
           {% if mode == "edit" %}Update Student{% else %}Save Student{% endif %}
         </button>
       </div>
 
     </form>
+
+    {% if mode == "edit" %}
+      <form method="POST" action="{% url 'student_delete' pk=student.pk %}" class="sf-inline-form">
+        {% csrf_token %}
+        <button type="submit" class="sf-btn sf-btn-danger">
+          Delete Student
+        </button>
+      </form>
+    {% endif %}
   </div>
 </section>
 

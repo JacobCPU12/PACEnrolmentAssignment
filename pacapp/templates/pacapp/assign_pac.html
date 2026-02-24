@@ -50,16 +50,16 @@
           <tbody>
             {% for s in students %}
               <tr class="{% if selected_student == s.pk %}ap-row-selected{% endif %}">
-                <td class="muted">#{{ s.student_id }}</td>
+                <td class="muted">S{{ s.student_id }}</td>
                 <td>{{ s.first_name }}</td>
                 <td>{{ s.last_name }}</td>
                 <td class="muted">{{ s.email }}</td>
                 <td class="muted">{{ s.enrollment_date }}</td>
                 <td>
                   <input type="radio"
-                         name="selected_student"
-                         value="{{ s.pk }}"
-                         {% if selected_student == s.pk %}checked{% endif %}>
+                   name="selected_student"
+                   value="{{ s.pk }}"
+                   {% if selected_student == s.pk %}checked{% endif %}>
                 </td>
               </tr>
             {% endfor %}
@@ -82,7 +82,6 @@
               <th>FIRST NAME</th>
               <th>LAST NAME</th>
               <th>EMAIL</th>
-              <th>SPECIALISATION</th>
               <th>SELECT</th>
             </tr>
           </thead>
@@ -90,16 +89,15 @@
           <tbody>
             {% for p in pacs %}
               <tr class="{% if selected_pac == p.pk %}ap-row-selected{% endif %}">
-                <td class="muted">{{ p.pac_id }}</td>
+                <td class="muted">E{{ p.pac_id }}</td>
                 <td>{{ p.first_name }}</td>
                 <td>{{ p.last_name }}</td>
                 <td class="muted">{{ p.email }}</td>
-                <td class="muted">{{ p.specialisation }}</td>
                 <td>
                   <input type="radio"
-                         name="selected_pac"
-                         value="{{ p.pk }}"
-                         {% if selected_pac == p.pk %}checked{% endif %}>
+                       name="selected_pac"
+                       value="{{ p.pk }}"
+                       {% if selected_pac == p.pk %}checked{% endif %}>
                 </td>
               </tr>
             {% endfor %}
