@@ -5,7 +5,9 @@ from .models import Pacs
 # Form used for managing new students
 class StudentForm(forms.ModelForm):
     class Meta:
+        # table used
         model = Students
+        # columns for students
         fields = [
             "first_name",
             "last_name",
