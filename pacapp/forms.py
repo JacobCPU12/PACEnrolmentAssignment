@@ -2,6 +2,7 @@ from django import forms
 from .models import Students
 from .models import Pacs
 
+# Form used for managing new students
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Students
@@ -24,6 +25,7 @@ class StudentForm(forms.ModelForm):
             "assigned_pac": forms.Select(attrs={"class": "sf-input"}),
         }
 
+# Form used for adding/editing a new PAC
 class PacForm(forms.ModelForm):
     class Meta:
         model = Pacs

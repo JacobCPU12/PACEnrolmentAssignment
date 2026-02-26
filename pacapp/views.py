@@ -8,10 +8,12 @@ from .models import Pacs
 from .forms import StudentForm
 from .forms import PacForm
 
+# Login page
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("home")
 
+    # once submitted
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
@@ -24,7 +26,7 @@ def login_view(request):
 
     return render(request, "pacapp/login.html")
 
-
+# home page
 def home_view(request):
     student=Students.objects.all()
     context={
@@ -56,11 +58,11 @@ def pac_list_view(request):
     }
     return render(request, "pacapp/pac_list.html", context)
 
-
+# used for managing pacs
 def pac_form_view(request):
     return render(request, "pacapp/pac_form.html", {"active_page": "pac_form"})
 
-
+# used for creating students
 def student_create_view(request):
     if request.method == "POST":
         form = StudentForm(request.POST)
@@ -77,6 +79,7 @@ def student_create_view(request):
         "form": form,
     })
 
+# editing students
 def student_edit_view(request, pk):
     student = get_object_or_404(Students, pk=pk)
 
@@ -137,6 +140,7 @@ def pac_create_view(request):
         "form": form,
     })
 
+# editing a pac
 def pac_edit_view(request, pk):
     pac = get_object_or_404(Pacs, pk=pk)
 
@@ -156,6 +160,7 @@ def pac_edit_view(request, pk):
         "pac": pac,
     })
 
+# deleting a pac
 def pac_delete_view(request, pk):
     pac = get_object_or_404(Pacs, pk=pk)
 
